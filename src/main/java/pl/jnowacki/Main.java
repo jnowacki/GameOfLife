@@ -1,9 +1,8 @@
 package pl.jnowacki;
 
 public class Main {
-    public static void main(String... args) {
-        Board board = new Board();
-
-        board.print();
+    public static void main(String... args) throws InterruptedException {
+        Game game = new Game();
+        game.startGame();
     }
 }

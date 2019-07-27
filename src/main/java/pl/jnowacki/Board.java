@@ -1,12 +1,21 @@
 package pl.jnowacki;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 public class Board {
 
-    private int size = 5;
+    private int size;
+    private int percentChanceOfAliveAtInit;
 
     private boolean[][] grid;
 
-    public Board() {
+    public Board(int size, int percentOfAlive) {
+        this.size = size;
+        this.percentChanceOfAliveAtInit = percentOfAlive;
+
         initGrid();
     }
 
@@ -35,10 +44,43 @@ public class Board {
     }
 
     private boolean getRandomCellState() {
-        return Math.random() > 0.7;
+        return Math.random() >= (double)(100 - percentChanceOfAliveAtInit)/100;
     }
 
-    protected int getNeighbours(int x, int y) {
+    public boolean tick() {
+
+        boolean isAnyAlive = false;
+        boolean [][] newGrid = new boolean[size][size];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                newGrid[i][j] = isCellAliveInNextGen(i, j);
+
+                if(newGrid[i][j] && !isAnyAlive) {
+                    isAnyAlive = true;
+                }
+            }
+        }
+
+        grid = newGrid;
+
+        return isAnyAlive;
+    }
+
+    private boolean isCellAliveInNextGen(int x, int y) {
+        int neighbours = getCountOfAliveNeighbours(x, y);
+
+        switch (neighbours) {
+            case 2:
+                return grid[x][y];
+            case 3:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    protected int getCountOfAliveNeighbours(int x, int y) {
 
         int aliveNeighbours = 0;
 
@@ -52,8 +94,6 @@ public class Board {
                     }
             }
         }
-
-
 
         return aliveNeighbours;
     }
