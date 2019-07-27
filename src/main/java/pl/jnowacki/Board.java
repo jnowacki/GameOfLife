@@ -2,7 +2,7 @@ package pl.jnowacki;
 
 public class Board {
 
-    private final int SIZE = 5;
+    private int size = 5;
 
     private boolean[][] grid;
 
@@ -10,9 +10,14 @@ public class Board {
         initGrid();
     }
 
+    public Board(boolean[][] grid) {
+        this.grid = grid;
+        this.size = this.grid.length;
+    }
+
     public void print() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 System.out.print((grid[i][j] ? "x" : "-") + "  ");
             }
             System.out.println();
@@ -20,7 +25,30 @@ public class Board {
     }
 
     private void initGrid() {
-        grid = new boolean[SIZE][SIZE];
+        grid = new boolean[size][size];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid[i][j] = getRandomCellState();
+            }
+        }
     }
 
+    private boolean getRandomCellState() {
+        return Math.random() > 0.7;
+    }
+
+    protected int getNeighbours(int x, int y) {
+
+        int aliveNeighbours = 0;
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++)
+                if (grid[i][j]) {
+                    aliveNeighbours++;
+                }
+        }
+
+        return aliveNeighbours;
+    }
 }
