@@ -16,7 +16,7 @@ class BoardTest {
 
         Board board = new Board(givenBoard);
 
-        assertEquals(1, board.getNeighbours(0, 1));
+        assertEquals(1, board.getNeighbours(0, 0));
         assertEquals(3, board.getNeighbours(1, 1));
     }
 }
