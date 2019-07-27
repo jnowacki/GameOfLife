@@ -42,12 +42,18 @@ public class Board {
 
         int aliveNeighbours = 0;
 
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++)
-                if (grid[i][j]) {
-                    aliveNeighbours++;
-                }
+        for(int i = x - 1; i <= x + 1; i++) {
+            if (i >= 0 && i < size) {
+                for (int j = y - 1; j <= y + 1; j++)
+                    if (j >= 0 && j < size) {
+                        if (!(i == x && j == y) && grid[i][j]) {
+                            aliveNeighbours++;
+                        }
+                    }
+            }
         }
+
+
 
         return aliveNeighbours;
     }
